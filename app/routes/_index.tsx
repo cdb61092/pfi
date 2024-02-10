@@ -16,14 +16,8 @@ export const meta: MetaFunction = () => {
 export async function action({request}: ActionFunctionArgs) {
     const formData = await request.formData()
     const accessToken = formData.get('accessToken')
-    console.log('token in action', accessToken)
-    console.log('suh')
 
-    // cacu token: token_hfx3vres5ra3qiiwtboxvz5x3u
-    // boa token: token_tpgpgx4azvfu6aofhfra2xovqa
-    // chase token: token_jcvo5fknnmnxescr4avvlr2iey
-
-    const username = 'token_hfx3vres5ra3qiiwtboxvz5x3u'
+    const username = 'token_'
     const password = ''; // Leave empty if not used
 
     const httpsAgent = new https.Agent({
@@ -38,11 +32,11 @@ export async function action({request}: ActionFunctionArgs) {
     //     throw new Error("Access token is required");
     // }
 
-    const optionss = {
+    const options = {
         hostname: 'api.teller.io',
         port: 443,
         method: 'GET',
-        path: '/accounts/acc_oi4j3h91i8alo9l98q000/transactions',
+        path: '/',
         agent: httpsAgent,
         headers: {
             'Authorization': `Basic ${base64Credentials}`,
@@ -53,7 +47,7 @@ export async function action({request}: ActionFunctionArgs) {
     };
 
     console.log('before request')
-    const reqq = https.request(optionss, (res) => {
+    const req = https.request(options, (res) => {
         let data = '';
         res.on('data', (chunk) => {
             data += chunk;
@@ -64,11 +58,11 @@ export async function action({request}: ActionFunctionArgs) {
         });
     });
 
-    reqq.on('error', (e) => {
+    req.on('error', (e) => {
         console.error(e);
     });
 
-    reqq.end()
+    req.end()
 
     // const options = {
     //     hostname: 'api.teller.io',
